@@ -1,0 +1,48 @@
+<div class="container-fluid vh-100" style="margin-top:50px">
+    <div class="" >
+        <div class="rounded d-flex justify-content-center">
+            <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
+                <div class="text-center">
+                    <h3 class="text-primary">Sign In</h3>
+                </div>
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
+                    <div class="p-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary"><i
+                                    class="bi bi-person-plus-fill text-white"></i></span>
+                            <input type="text" class="form-control" formControlName="Email" placeholder="Email">
+                        </div>
+                        <div class="text-danger"  *ngIf="loginForm.get('Email')?.hasError('required') && loginForm.get('Email')?.touched">
+                            * Email field is required
+                          </div>
+
+                          <div class="text-danger"  *ngIf="loginForm.get('Email')?.hasError('email') && loginForm.get('Email')?.touched">
+                             Email is not valid
+                          </div>
+
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-primary"><i
+                                    class="bi bi-key-fill text-white"></i></span>
+                            <input type="password" class="form-control" formControlName="Password" placeholder="password">
+                        </div>
+
+                        <div class="text-danger" *ngIf="loginForm.get('Password')?.hasError('required') && loginForm.get('Password')?.touched">
+                            Password is required
+                          </div>
+                        
+                        <button class="btn btn-primary text-center mt-2" type="submit">
+                            Login
+                        </button>
+                        <p class="text-center mt-5">Don't have an account?
+                            <span class="text-primary" [routerLink]="['/register']" style="cursor: pointer;">Sign Up</span>
+                        </p>
+                        <p class="text-center text-primary">
+                            <span class="text-primary" [routerLink]="['/forgot-password']" style="cursor: pointer;">
+                            Forgot your password?</span> </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
