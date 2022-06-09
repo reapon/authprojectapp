@@ -6,10 +6,7 @@ import { User } from 'src/app/models/user.model';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
-import * as moment from 'moment';
 
-
-declare var $:any;
 
 @Component({
   selector: 'app-profile',
@@ -36,18 +33,14 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.getProfileData(localStorage.getItem('userID'));
     this.CreateProfileForm();
-    $(".date").flatpickr({
-      dateFormat: "d-m-Y",
-      allowInput: true,      
-    });
+
 
   }
   CreateProfileForm() {
     this.profileForm = this.fb.group(
       {
         UserID: ['', Validators.required],
-        // SecurityQuestionID: ['0', Validators.required],
-        // SecurityAns: ['', Validators.required],
+
         Gender: ['0', Validators.required],
         Mobile: ['', Validators.required],
         DOB: ['', Validators.required],
@@ -79,6 +72,9 @@ export class ProfileComponent implements OnInit {
   }
 
   onEdit(){
+    console.log(this.dob)
+    let date =this.dob =="Not Available"?"": this.datepipe.transform(this.dob, 'yyyy-MM-dd');
+    console.log(date);
 
     this.profileForm = this.fb.group({
 
@@ -86,12 +82,12 @@ export class ProfileComponent implements OnInit {
       UserID: [localStorage.getItem('userID'), Validators.required],
       Gender: [this.gender == "Not Available"?"0": this.gender, Validators.required],
       Mobile: [this.mobile == "Not Available"?"": this.mobile, Validators.required],
-      DOB: [this.dob == "Not Available"?"": this.dob, Validators.required],
       FullName: [this.fullName, Validators.required],
-    
-      // DDate: [dateIncrease.toISOString().replace(/T.*/,'').split('-').reverse().join('-'), Validators.nullValidator],
-      
+
+      DOB: [ date, Validators.required],
+ 
     });
+
 
 
   }
@@ -99,10 +95,10 @@ export class ProfileComponent implements OnInit {
   profileUpdate(){
     if (this.profileForm.valid && this.profileForm.value.Gender!='0') {
 
-      var DDate = $("#date").val();
-      let parsedDDate = moment(DDate,"DD-MM-YYYY");
-      let outputDDate = parsedDDate.format("YYYY-MM-DD");
-      this.profileForm.value.DOB = outputDDate;
+      var DDate =(document.getElementById("date") as HTMLInputElement).value;
+      console.log(DDate);
+
+      this.profileForm.value.DOB = DDate;
 
 
       this.userModel.FullName=this.profileForm.value.FullName;
@@ -120,7 +116,6 @@ export class ProfileComponent implements OnInit {
           ref?.click();
 
           this.getProfileData(localStorage.getItem('userID'));
-            // this.router.navigate(['/login']);
           },
           (error) => {
             this.notifyService.showError("Profile Update Failed", error.error);;

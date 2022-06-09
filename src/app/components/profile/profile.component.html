@@ -129,8 +129,8 @@
               </div>
   
             <div class="mb-3">
-              <label for="email" class="form-label">Date of Birth  <span class="ml-2 text-danger">*</span></label>
-              <input type="text" formControlName="DOB" class="form-control date" placeholder="dd-mm-yyyy" id="date" >
+              <label for="date" class="form-label">Date of Birth  <span class="ml-2 text-danger">*</span></label>
+              <input type="date" formControlName="DOB" class="form-control date" placeholder="dd-mm-yyyy" id="date" >
             </div>
 
             <div class="text-danger"  *ngIf="profileForm.get('DOB')?.hasError('required') && profileForm.get('DOB')?.touched">

@@ -5,7 +5,6 @@ import { Register } from 'src/app/models/register.model';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
-declare var $:any;
 
 @Component({
   selector: 'app-register',
@@ -33,9 +32,6 @@ export class RegisterComponent implements OnInit {
       this.securityQuestion = [];
 
       this.securityQuestion = data.security;
-      
-
-
 
     },err=>{
       console.log(err);

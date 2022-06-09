@@ -5,7 +5,6 @@ import { Forgotpassword } from 'src/app/models/forgotpassword.model';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
-declare var $:any;
 
 @Component({
   selector: 'app-forgot-password',
@@ -15,6 +14,9 @@ declare var $:any;
 export class ForgotPasswordComponent implements OnInit {
   securityQuestion!: any;
   forgetPasswordForm!: FormGroup;
+  showMainForm:boolean=true;
+  showPassForm:boolean=false;
+  email:any;
 
   forgetPasswordModel : Forgotpassword=new Forgotpassword();
 
@@ -54,9 +56,12 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   verifyEmailWithSecurity(){
-    let email = $('#email').val();
-    let question = $('#security').val();
-    let ans = $('#ans').val();
+
+
+    let email = (document.getElementById("email") as HTMLInputElement).value;
+    let question = (document.getElementById("security") as HTMLInputElement).value;
+    let ans = (document.getElementById("ans") as HTMLInputElement).value;;
+    this.email=email;
 
     this.authService.verifyUserWithSecurity(email, question, ans).subscribe(data=>{
       console.log(data);
@@ -65,8 +70,9 @@ export class ForgotPasswordComponent implements OnInit {
         this.router.navigate(['/login']);
       }else{
         this.notifyService.showSuccess("You can reset your password", "Matched");
-        $("#mainPart").hide();
-        $("#hiddenPart").show();
+       
+        this.showMainForm=false;
+        this.showPassForm=true;
         
       }
 
@@ -78,7 +84,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   resetPassword(){
     if (this.forgetPasswordForm.valid) {
-      this.forgetPasswordModel.Email=$('#email').val();
+      this.forgetPasswordModel.Email= this.email;
       this.forgetPasswordModel.Password=this.forgetPasswordForm.value.Password;
 
 
